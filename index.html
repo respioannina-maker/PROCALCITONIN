@@ -3,80 +3,221 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CRF – Ογκολογική Μελέτη</title>
+<title>CRF – Καρκίνος Πνεύμονα (PCT / IL-6 / C3 / C4)</title>
 
-<!-- Γρήγορο, κομψό, κόκκινο theme -->
+<!-- Κομψό κόκκινο θέμα -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root{ --bg:#fff0f2; --card:#fff; --text:#111827; --muted:#6b7280; --accent:#e11d48; --accent2:#fb7185; }
-  *{box-sizing:border-box} body{margin:0;padding:20px;background:var(--bg);font-family:"Poppins",Arial,sans-serif;color:var(--text)}
-  h1{text-align:center;margin:0 0 14px} .card{background:var(--card);border:1px solid #f4c6cf;border-radius:16px;padding:16px;max-width:1000px;margin:12px auto}
-  label{display:block;margin:8px 0;color:var(--muted)} input,select{width:100%;padding:10px 12px;border:1px solid #e5e7eb;border-radius:12px}
-  input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(225,29,72,.15);outline:0}
-  .section{display:none} .section.show{display:block}
-  button[type=submit]{width:100%;padding:12px;border:0;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:600;cursor:pointer}
-  #status{text-align:center;font-weight:600;color:var(--accent);margin-top:10px}
+  :root{
+    --bg:#fff0f2; --card:#fff; --text:#1f2937;
+    --muted:#6b7280; --accent:#e11d48; --accent2:#fb7185;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; padding:20px; background:var(--bg);
+    font-family:"Poppins",sans-serif; color:var(--text);
+  }
+  h1{text-align:center;margin:0 0 16px;color:var(--accent);}
+  h2{color:var(--accent);margin-top:8px;}
+  .card{
+    background:var(--card);border-radius:16px;padding:16px;
+    box-shadow:0 4px 10px rgba(0,0,0,.05);
+    max-width:1100px;margin:0 auto;
+  }
+  label{display:block;margin:6px 0;font-weight:500;color:var(--muted);}
+  input,select{
+    width:100%;padding:8px 10px;margin-top:4px;
+    border:1px solid #e5e7eb;border-radius:10px;
+  }
+  input:focus,select:focus{
+    border-color:var(--accent);box-shadow:0 0 0 3px rgba(225,29,72,.15);outline:0;
+  }
+  button{
+    width:100%;margin-top:14px;padding:12px;border:0;
+    border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#fff;font-size:16px;font-weight:600;cursor:pointer;
+  }
+  #status{text-align:center;font-weight:600;color:var(--accent);margin-top:10px;}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:12px;
+  }
 </style>
 </head>
 <body>
 
-<h1>CRF – Ογκολογική Μελέτη (PCT / IL-6 / C3 / C4)</h1>
+<h1>CRF – Καρκίνος Πνεύμονα (PCT / IL-6 / C3 / C4)</h1>
 
 <form id="crfForm" class="card">
-  <h2>🆔 Ταυτότητα</h2>
-  <label>NPS (Μοναδικός Κωδικός)
-    <input type="text" name="NPS" placeholder="π.χ. NPS-0001" required>
-  </label>
-  <label>Ονοματεπώνυμο
-    <input type="text" name="Ονοματεπώνυμο" placeholder="π.χ. Παπαδόπουλος Ιωάννης" required>
-  </label>
-  <label>Ενότητα
-    <select name="Section" id="Section" required>
-      <option value="">— Επιλέξτε —</option>
-      <option value="Δημογραφικά/Ιστορικό">Δημογραφικά/Ιστορικό</option>
-      <option value="T0">T0</option>
-      <option value="T1">T1</option>
-      <option value="T2">T2</option>
-      <option value="T3">T3</option>
-      <option value="Σταθερή φάση">Σταθερή φάση</option>
-      <option value="Reh1">Reh1</option>
-    </select>
-  </label>
-  <label>Ημερομηνία
-    <input type="date" name="Ημερομηνία">
-  </label>
+  <input type="hidden" name="Section" id="Section" value="Συνοπτικά">
 
-  <!-- Δημογραφικά -->
-  <section class="section" data-section="Δημογραφικά/Ιστορικό">
-    <h3>Δημογραφικά / Ιστορικό</h3>
-    <label>Ηλικία <input type="number" name="Ηλικία"></label>
-    <label>Φύλο
-      <select name="Φύλο"><option value="">—</option><option>Άνδρας</option><option>Γυναίκα</option><option>Άλλο</option></select>
+  <h2>Συνοπτικά</h2>
+  <div class="grid">
+
+    <label>ΝΠΣ
+      <input type="text" name="NPS" placeholder="π.χ. NPS-0001" required>
     </label>
-    <label>Κάπνισμα
-      <select name="Κάπνισμα"><option value="">—</option><option>Ποτέ</option><option>Πρώην</option><option>Ενεργός</option></select>
+    <label>Ηλικία
+      <input type="number" name="Ηλικία">
     </label>
-    <label>Pack-years <input type="number" name="Pack-years"></label>
-    <label>CAT score <input type="number" name="CAT score"></label>
-    <label>mMRC <input type="number" name="mMRC"></label>
-  </section>
+    <label>Όνομα-Επώνυμο
+      <input type="text" name="Όνομα-Επώνυμο" required>
+    </label>
 
-  <!-- T0 (ενδεικτικά βασικά πεδία) -->
-  <section class="section" data-section="T0">
-    <h3>T0</h3>
-    <label>PCT (ng/mL) <input type="number" step="0.01" name="PCT (ng/mL)"></label>
-    <label>IL-6 (pg/mL) <input type="number" step="0.1" name="IL-6 (pg/mL)"></label>
-    <label>C3 (mg/dL) <input type="number" step="0.1" name="C3 (mg/dL)"></label>
-    <label>C4 (mg/dL) <input type="number" step="0.1" name="C4 (mg/dL)"></label>
-    <label>CRP (mg/L) <input type="number" step="0.1" name="CRP (mg/L)"></label>
-  </section>
+    <label>Ημερομηνία λήψης εργαστηριακών
+      <input type="date" name="Ημερομηνία λήψης εργαστηριακών">
+    </label>
+    <label>Εμπύρετο
+      <select name="Εμπύρετο"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+    </label>
+    <label>CRP (mg/L)
+      <input type="number" step="0.1" name="CRP (mg/L)">
+    </label>
 
-  <!-- Απλές ενότητες για test -->
-  <section class="section" data-section="T1"><h3>T1</h3><label>CRP (mg/L) <input type="number" step="0.1" name="T1_CRP (mg/L)"></label></section>
-  <section class="section" data-section="T2"><h3>T2</h3><label>CRP (mg/L) <input type="number" step="0.1" name="T2_CRP (mg/L)"></label></section>
-  <section class="section" data-section="T3"><h3>T3</h3><label>CRP (mg/L) <input type="number" step="0.1" name="T3_CRP (mg/L)"></label></section>
-  <section class="section" data-section="Σταθερή φάση"><h3>Σταθερή φάση</h3><label>CRP (mg/L) <input type="number" step="0.1" name="Stable_CRP (mg/L)"></label></section>
-  <section class="section" data-section="Reh1"><h3>Reh1</h3><label>CRP (mg/L) <input type="number" step="0.1" name="Reh1_CRP (mg/L)"></label></section>
+    <label>PCT (ng/ml)
+      <input type="number" step="0.01" name="PCT (ng/ml)">
+    </label>
+    <label>Τ.Κ.Ε. (mm/h)
+      <input type="number" name="Τ.Κ.Ε. (mm/h)">
+    </label>
+    <label>α1-ΑΤ
+      <input type="number" step="0.1" name="α1-ΑΤ">
+    </label>
+
+    <label>IL-6
+      <input type="number" step="0.1" name="IL-6">
+    </label>
+    <label>FER
+      <input type="number" step="0.1" name="FER">
+    </label>
+    <label>WBC
+      <input type="number" step="0.01" name="WBC">
+    </label>
+
+    <label>NEU (#)
+      <input type="number" step="0.01" name="NEU (#)">
+    </label>
+    <label>LYM (#)
+      <input type="number" step="0.01" name="LYM (#)">
+    </label>
+    <label>EOS (#)
+      <input type="number" step="0.01" name="EOS (#)">
+    </label>
+
+    <label>Hb (g/dL)
+      <input type="number" step="0.1" name="Hb">
+    </label>
+    <label>Hct (%)
+      <input type="number" step="0.1" name="Hct">
+    </label>
+    <label>PLTs (#)
+      <input type="number" step="1" name="PLTs (#)">
+    </label>
+
+    <label>IgG
+      <input type="number" step="0.1" name="IgG">
+    </label>
+    <label>IgM
+      <input type="number" step="0.1" name="IgM">
+    </label>
+    <label>IgA
+      <input type="number" step="0.1" name="IgA">
+    </label>
+
+    <label>IgE
+      <input type="number" step="0.1" name="IgE">
+    </label>
+    <label>C3
+      <input type="number" step="0.1" name="C3">
+    </label>
+    <label>C4
+      <input type="number" step="0.1" name="C4">
+    </label>
+
+    <label>TPR/ALB
+      <input type="text" name="TPR/ALB" placeholder="π.χ. 0.8">
+    </label>
+    <label>COPD
+      <select name="COPD"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+    </label>
+
+    <label>FEV1 (L)
+      <input type="number" step="0.01" name="FEV1 (L)">
+    </label>
+    <label>FEV1 (%)
+      <input type="number" step="0.1" name="FEV1 (%)">
+    </label>
+    <label>FVC (L)
+      <input type="number" step="0.01" name="FVC (L)">
+    </label>
+
+    <label>FVC (%)
+      <input type="number" step="0.1" name="FVC (%)">
+    </label>
+    <label>FEV1/FVC
+      <input type="number" step="0.1" name="FEV1/FVC">
+    </label>
+    <label>FEF 25-75 (L)
+      <input type="number" step="0.01" name="FEF 25-75 (L)">
+    </label>
+
+    <label>FEF 25-75 (%)
+      <input type="number" step="0.1" name="FEF 25-75 (%)">
+    </label>
+    <label>DLCOcSB %
+      <input type="number" step="0.1" name="DLCOcSB %">
+    </label>
+    <label>Κάπνισμα (py)
+      <input type="number" step="0.1" name="Κάπνισμα (py)">
+    </label>
+
+    <label>PET-CT SUVmax στην μάζα
+      <input type="number" step="0.1" name="PET-CT SUVmax στην μάζα">
+    </label>
+
+    <label>ΜΕΤΑ ΠΝΕΥΜΟΝΑ
+      <select name="ΜΕΤΑ ΠΝΕΥΜΟΝΑ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+    </label>
+    <label>ΜΕΤΑ ΛΕΜΦΑΔΕΝΑ
+      <select name="ΜΕΤΑ ΛΕΜΦΑΔΕΝΑ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+    </label>
+    <label>ΜΕΤΑ ΟΣΤΩΝ
+      <select name="ΜΕΤΑ ΟΣΤΩΝ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+    </label>
+
+    <label>ΜΕΤΑ ΚΝΣ
+      <select name="ΜΕΤΑ ΚΝΣ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+    </label>
+    <label>ΜΕΤΑ ΕΠΙΝΕΦΡΙΔΙΟΥ
+      <select name="ΜΕΤΑ ΕΠΙΝΕΦΡΙΔΙΟΥ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+    </label>
+
+    <label>ΚΔ ΝΟΣΗΜΑ
+      <select name="ΚΔ ΝΟΣΗΜΑ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+    </label>
+    <label>ΣΔ
+      <select name="ΣΔ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+    </label>
+    <label>ΑΥ
+      <select name="ΑΥ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+    </label>
+
+    <label>ΔΛΠΔ
+      <select name="ΔΛΠΔ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+    </label>
+
+    <label>Τύπος κακοήθειας
+      <input type="text" name="Τύπος κακοήθειας" placeholder="π.χ. NSCLC αδενοκαρκίνωμα">
+    </label>
+    <label>Έκβαση
+      <input type="text" name="Έκβαση" placeholder="π.χ. εν ζωή / κατέληξε">
+    </label>
+    <label>Έκβαση - ημερομηνία
+      <input type="date" name="Έκβαση - ημερομηνία">
+    </label>
+
+  </div>
 
   <button type="submit">Καταχώρηση (Κεντρικά)</button>
   <div id="status"></div>
