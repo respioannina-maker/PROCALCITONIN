@@ -1,43 +1,39 @@
-/* Frontend – μόνο κεντρική αποθήκευση στο Google Sheet */
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxFmXlhepcqnznGLs-xVre47MpDMcvF8GnBQwDf-2NrKanTebNe6oQw9u6S_NtYWvYfTQ/exec";
+// app.js – Αποστολή φόρμας CRF στο Google Sheet μέσω Apps Script
 
-(function(){
-  const sectionSel = document.getElementById('Section');
-  const sections = Array.from(document.querySelectorAll('.section'));
-  const form = document.getElementById('crfForm');
-  const status = document.getElementById('status');
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxdld1S9KVeZuZ3pSxskMbXAJ8u3ozNafWeeZ9TjWyvsw4sqEWHvBx6rr6u9LyU6uUGag/exec"; 
+// π.χ. "https://script.google.com/macros/s/AKfycbx123abcDEF456xyz/exec"
 
-  function showSection(name){
-    const key = (name||'').trim();
-    sections.forEach(s => s.classList.toggle('show', s.dataset.section===key));
-  }
-  showSection(sectionSel ? sectionSel.value : '');
-  sectionSel && sectionSel.addEventListener('change', e => showSection(e.target.value));
+document.getElementById("crfForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-  function serializeForm(formEl){
-    const fd = new FormData(formEl);
-    const obj = {};
-    fd.forEach((v,k)=>{ if (v!=='' && v!=null) obj[k]=v; });
-    return obj;
-  }
+  const form = e.target;
+  const data = {};
+  new FormData(form).forEach((v, k) => data[k] = v);
 
-  form && form.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    const payload = serializeForm(form);
-    if (!payload['NPS'] || !payload['Ονοματεπώνυμο'] || !payload['Section']){
-      status.textContent = "Συμπληρώστε ΝΠΣ, Ονοματεπώνυμο και Ενότητα.";
-      return;
-    }
-    payload['timestamp'] = new Date().toISOString();
-    try{
-      status.textContent = "⏳ Αποστολή...";
-      await fetch(WEB_APP_URL, { method:'POST', body: JSON.stringify(payload) });
-      status.textContent = "✅ Καταχωρήθηκε στο κεντρικό Google Sheet.";
+  // Εμφάνισε ότι γίνεται αποστολή
+  const statusEl = document.getElementById("status");
+  statusEl.textContent = "⏳ Αποστολή δεδομένων...";
+
+  try {
+    const response = await fetch(WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const result = await response.json();
+
+    if (result.ok) {
+      statusEl.textContent = "✅ Τα δεδομένα καταχωρήθηκαν επιτυχώς!";
+      statusEl.style.color = "#16a34a";
       form.reset();
-      sections.forEach(s=> s.classList.remove('show'));
-    }catch(err){
-      console.error(err);
-      status.textContent = "⚠️ Πρόβλημα σύνδεσης. Δοκιμάστε ξανά.";
+    } else {
+      statusEl.textContent = "❌ Σφάλμα: " + (result.error || "Αποτυχία αποστολής");
+      statusEl.style.color = "#dc2626";
     }
-  });
-})();
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById("status").textContent = "⚠️ Σφάλμα σύνδεσης. Δοκίμασε ξανά.";
+  }
+});
