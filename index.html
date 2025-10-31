@@ -6,19 +6,204 @@
   <title>CRF – Πνευμονολογική Κλινική</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#fff0f2;
-      --card:#fff;
-      --text:#1f2937;
-      --muted:#6b7280;
-      --accent:#e11d48;
-      --accent2:#fb7185;
-    }
-    *{box-sizing:border-box;}
-    body{margin:0;background:var(--bg);font-family:Poppins,Arial,sans-serif;color:var(--text);}
-    header{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:16px;text-align:center;font-weight:600;}
-    form{max-width:1100px;margin:24px auto;background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 6px 18px rgba(0,0,0,.06);}
-    h2{color:var(--accent);border-bottom:2px solid var(--accent2);padding-bottom:6px;margin-top:24px;}
-    label{display:block;margin-top:12px;font-weight:500;}
-    input,select{width:100%;padding:8px;margin-top:4px;border-radius:6px;border:1px solid #ccc;font-size:15px;}
-    button{background:var(--accent);color:#fff;border:none;border-radius
+    :root{--bg:#fff0f2;--card:#fff;--text:#1f2937;--muted:#6b7280;--accent:#e11d48;--accent2:#fb7185}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);font-family:Poppins,Arial,sans-serif;color:var(--text)}
+    header{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:16px;text-align:center;font-weight:600}
+    form{max-width:900px;margin:24px auto;background:#fff;border-radius:16px;padding:20px 24px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+    h2{color:var(--accent);border-bottom:2px solid var(--accent2);padding-bottom:6px;margin-top:8px}
+    label{display:block;margin-top:12px;font-weight:500;color:var(--muted)}
+    input,select{width:100%;padding:10px;margin-top:4px;border-radius:10px;border:1px solid #e5e7eb;font-size:15px}
+    input:focus,select:focus{border-color:var(--accent);outline:0;box-shadow:0 0 0 3px rgba(225,29,72,.15)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+    button{width:100%;margin-top:18px;padding:12px;border:0;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;cursor:pointer}
+    #status{text-align:center;margin-top:10px;font-weight:600}
+  </style>
+</head>
+<body>
+  <header>CRF – Καταχώρηση Ασθενούς (Συνοπτικά)</header>
+
+  <form id="crfForm">
+    <!-- Πολύ σημαντικό: Section = Συνοπτικά -->
+    <input type="hidden" name="Section" id="Section" value="Συνοπτικά">
+
+    <h2>Ταυτότητα</h2>
+    <div class="grid">
+      <label>ΝΠΣ
+        <input type="text" name="NPS" placeholder="π.χ. NPS-0001" required>
+      </label>
+      <label>Όνομα
+        <input type="text" name="Όνομα" placeholder="π.χ. Ιωάννης" required>
+      </label>
+      <label>Επώνυμο
+        <input type="text" name="Επώνυμο" placeholder="π.χ. Παπαδόπουλος" required>
+      </label>
+      <label>Ηλικία
+        <input type="number" name="Ηλικία" min="0">
+      </label>
+      <label>Ημερομηνία λήψης εργαστηριακών
+        <input type="date" name="Ημερομηνία λήψης εργαστηριακών">
+      </label>
+      <label>Εμπύρετο
+        <select name="Εμπύρετο">
+          <option value="">—</option>
+          <option>Ναι</option>
+          <option>Όχι</option>
+        </select>
+      </label>
+    </div>
+
+    <h2>Βασικοί Δείκτες</h2>
+    <div class="grid">
+      <label>CRP (mg/L)
+        <input type="number" step="0.1" name="CRP (mg/L)">
+      </label>
+      <label>PCT (ng/ml)
+        <input type="number" step="0.01" name="PCT (ng/ml)">
+      </label>
+      <label>IL-6
+        <input type="number" step="0.1" name="IL-6">
+      </label>
+      <label>Τ.Κ.Ε. (mm/h)
+        <input type="number" name="Τ.Κ.Ε. (mm/h)">
+      </label>
+      <label>FER
+        <input type="number" step="0.1" name="FER">
+      </label>
+      <label>α1-ΑΤ
+        <input type="number" step="0.1" name="α1-ΑΤ">
+      </label>
+    </div>
+
+    <h2>Αιματολογικά</h2>
+    <div class="grid">
+      <label>WBC
+        <input type="number" step="0.01" name="WBC">
+      </label>
+      <label>NEU (#)
+        <input type="number" step="0.01" name="NEU (#)">
+      </label>
+      <label>LYM (#)
+        <input type="number" step="0.01" name="LYM (#)">
+      </label>
+      <label>EOS (#)
+        <input type="number" step="0.01" name="EOS (#)">
+      </label>
+      <label>Hb
+        <input type="number" step="0.1" name="Hb">
+      </label>
+      <label>Hct
+        <input type="number" step="0.1" name="Hct">
+      </label>
+      <label>PLTs (#)
+        <input type="number" step="1" name="PLTs (#)">
+      </label>
+    </div>
+
+    <h2>Ανοσοσφαιρίνες & Συμπλήρωμα</h2>
+    <div class="grid">
+      <label>IgG <input type="number" step="0.1" name="IgG"></label>
+      <label>IgM <input type="number" step="0.1" name="IgM"></label>
+      <label>IgA <input type="number" step="0.1" name="IgA"></label>
+      <label>IgE <input type="number" step="0.1" name="IgE"></label>
+      <label>C3  <input type="number" step="0.1" name="C3"></label>
+      <label>C4  <input type="number" step="0.1" name="C4"></label>
+    </div>
+
+    <h2>Πρωτεΐνες</h2>
+    <div class="grid">
+      <label>TP (g/dL)
+        <input type="number" step="0.01" name="TP (g/dL)">
+      </label>
+      <label>ALB (g/dL)
+        <input type="number" step="0.01" name="ALB (g/dL)">
+      </label>
+      <label>TPR/ALB (αν το αφήσεις κενό, θα υπολογιστεί αυτόματα)
+        <input type="text" name="TPR/ALB" placeholder="π.χ. 0.8">
+      </label>
+    </div>
+
+    <h2>Πνευμονολογικά</h2>
+    <div class="grid">
+      <label>COPD
+        <select name="COPD"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+      </label>
+      <label>FEV1 (L)
+        <input type="number" step="0.01" name="FEV1 (L)">
+      </label>
+      <label>FEV1 (%)
+        <input type="number" step="0.1" name="FEV1 (%)">
+      </label>
+      <label>FVC (L)
+        <input type="number" step="0.01" name="FVC (L)">
+      </label>
+      <label>FVC (%)
+        <input type="number" step="0.1" name="FVC (%)">
+      </label>
+      <label>FEV1/FVC
+        <input type="number" step="0.1" name="FEV1/FVC">
+      </label>
+      <label>FEF 25-75 (L)
+        <input type="number" step="0.01" name="FEF 25-75 (L)">
+      </label>
+      <label>FEF 25-75 (%)
+        <input type="number" step="0.1" name="FEF 25-75 (%)">
+      </label>
+      <label>DLCOcSB %
+        <input type="number" step="0.1" name="DLCOcSB %">
+      </label>
+      <label>Κάπνισμα (py)
+        <input type="number" step="0.1" name="Κάπνισμα (py)">
+      </label>
+    </div>
+
+    <h2>Απεικόνιση / Νόσος</h2>
+    <div class="grid">
+      <label>PET-CT SUVmax στην μάζα
+        <input type="number" step="0.1" name="PET-CT SUVmax στην μάζα">
+      </label>
+      <label>ΜΕΤΑ ΠΝΕΥΜΟΝΑ
+        <select name="ΜΕΤΑ ΠΝΕΥΜΟΝΑ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+      </label>
+      <label>ΜΕΤΑ ΛΕΜΦΑΔΕΝΑ
+        <select name="ΜΕΤΑ ΛΕΜΦΑΔΕΝΑ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+      </label>
+      <label>ΜΕΤΑ ΟΣΤΩΝ
+        <select name="ΜΕΤΑ ΟΣΤΩΝ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+      </label>
+      <label>ΜΕΤΑ ΚΝΣ
+        <select name="ΜΕΤΑ ΚΝΣ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+      </label>
+      <label>ΜΕΤΑ ΕΠΙΝΕΦΡΙΔΙΟΥ
+        <select name="ΜΕΤΑ ΕΠΙΝΕΦΡΙΔΙΟΥ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+      </label>
+      <label>ΚΔ ΝΟΣΗΜΑ
+        <select name="ΚΔ ΝΟΣΗΜΑ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+      </label>
+      <label>ΣΔ
+        <select name="ΣΔ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+      </label>
+      <label>ΑΥ
+        <select name="ΑΥ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+      </label>
+      <label>ΔΛΠΔ
+        <select name="ΔΛΠΔ"><option value="">—</option><option>Ναι</option><option>Όχι</option></select>
+      </label>
+      <label>Τύπος κακοήθειας
+        <input type="text" name="Τύπος κακοήθειας" placeholder="π.χ. NSCLC αδενοκαρκίνωμα">
+      </label>
+      <label>Έκβαση
+        <input type="text" name="Έκβαση" placeholder="π.χ. εν ζωή / κατέληξε">
+      </label>
+      <label>Έκβαση - ημερομηνία
+        <input type="date" name="Έκβαση - ημερομηνία">
+      </label>
+    </div>
+
+    <button type="submit">Καταχώρηση (Κεντρικά)</button>
+    <div id="status"></div>
+  </form>
+
+  <script src="app.js"></script>
+</body>
+</html>
