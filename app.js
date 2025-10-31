@@ -1,38 +1,29 @@
-// 🔴 Αντικατάστησε το URL με το δικό σου από το Google Apps Script (πρέπει να τελειώνει σε /exec)
+// 🔴 Βάλε εδώ το δικό σου Google Apps Script Web App URL (τελειώνει σε /exec)
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzrW6YBhJiI0HQXv4fxfFhweykJBCX-A-O1QMentqTZ_QCBgXwwC5ElwdtFi7hhrWonvg/exec";
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("crfForm");
   const statusDiv = document.getElementById("status");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    statusDiv.innerHTML = "⏳ Αποστολή δεδομένων...";
+    statusDiv.textContent = "⏳ Αποστολή δεδομένων...";
 
-    // Συλλογή όλων των πεδίων σε αντικείμενο
-    const formData = new FormData(form);
+    const fd = new FormData(form);
     const data = {};
-    formData.forEach((value, key) => {
-      data[key] = value;
-    });
+    fd.forEach((v,k)=>{ data[k] = v; });
 
     try {
-      const response = await fetch(WEB_APP_URL, {
-        method: "POST",
-        mode: "no-cors", // για αποφυγή CORS error
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
+      // κρατάμε ΧΩΡΙΣ headers για να αποφύγουμε CORS προέλεγχο
+      await fetch(WEB_APP_URL, { method: "POST", body: JSON.stringify(data) });
 
-      // Εμφάνιση αποτελέσματος (το "no-cors" δεν επιτρέπει ανάγνωση response, αλλά λειτουργεί)
-      statusDiv.innerHTML = "✅ Τα δεδομένα αποθηκεύτηκαν επιτυχώς!";
+      statusDiv.textContent = "✅ Καταχωρήθηκε στο κεντρικό Google Sheet.";
+      statusDiv.style.color = "#16a34a";
       form.reset();
-
-    } catch (error) {
-      console.error("Σφάλμα:", error);
-      statusDiv.innerHTML = "❌ Παρουσιάστηκε σφάλμα κατά την αποθήκευση.";
+    } catch (err) {
+      console.error(err);
+      statusDiv.textContent = "❌ Σφάλμα σύνδεσης. Έλεγξε το /exec URL και τα δικαιώματα Web App.";
+      statusDiv.style.color = "#dc2626";
     }
   });
 });
-
-   
